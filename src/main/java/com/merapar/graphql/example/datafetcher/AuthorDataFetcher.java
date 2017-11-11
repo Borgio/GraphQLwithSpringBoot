@@ -2,7 +2,10 @@ package com.merapar.graphql.example.datafetcher;
 
 import com.merapar.graphql.base.TypedValueMap;
 import com.merapar.graphql.example.model.Author;
+import com.merapar.graphql.example.model.BlogEntry;
 import com.merapar.graphql.example.repo.AuthorRepo;
+import com.merapar.graphql.example.repo.BlogEntryRepo;
+import graphql.schema.DataFetchingEnvironment;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +19,9 @@ public class AuthorDataFetcher {
 
     @Autowired
     private AuthorRepo authorRepo;
+
+    @Autowired
+    private BlogEntryRepo blogEntryRepo;
 
     public List<Author> getAuthorsByFilter(TypedValueMap arguments) {
         Long id = arguments.get("id");
@@ -65,4 +71,8 @@ public class AuthorDataFetcher {
         return author;
     }
 
+    public List<BlogEntry> getBlogEntriesByAuthorId(DataFetchingEnvironment dataFetchingEnvironment) {
+        Author author = dataFetchingEnvironment.getSource();
+        return blogEntryRepo.getBlogEntriesByAuthorId(author.getId());
+    }
 }

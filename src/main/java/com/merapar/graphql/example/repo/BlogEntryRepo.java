@@ -1,13 +1,16 @@
 package com.merapar.graphql.example.repo;
 
 import com.merapar.graphql.example.model.BlogEntry;
+import com.merapar.graphql.example.model.Comment;
 import lombok.Getter;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class BlogEntryRepo {
@@ -26,5 +29,11 @@ public class BlogEntryRepo {
         blogEntries.put(2L, blogEntry2);
         blogEntries.put(3L, blogEntry3);
         blogEntries.put(4L, blogEntry4);
+    }
+
+    public List<BlogEntry> getBlogEntriesByAuthorId(Long authorId) {
+        return blogEntries.values().stream()
+            .filter(blogEntry -> blogEntry.getAuthorId().equals(authorId))
+            .collect(Collectors.toList());
     }
 }

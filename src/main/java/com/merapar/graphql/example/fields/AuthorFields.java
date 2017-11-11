@@ -35,6 +35,9 @@ public class AuthorFields implements GraphQlFields {
     @Autowired
     private AuthorDataFetcher authorDataFetcher;
 
+    @Autowired
+    private BlogEntryFields blogEntryFields;
+
 
     @Getter
     private List<GraphQLFieldDefinition> queryFields;
@@ -69,6 +72,9 @@ public class AuthorFields implements GraphQlFields {
             .field(newFieldDefinition().name("name").description("The name").type(GraphQLString).build())
             .field(newFieldDefinition().name("bio").description("The biography").type(GraphQLString).build())
             .field(newFieldDefinition().name("email").description("The email address").type(GraphQLString).build())
+            .field(newFieldDefinition().name("blogEntries").description("The blog entries")
+                .type(new GraphQLList(blogEntryFields.getBlogEntryType()))
+                .dataFetcher(authorDataFetcher::getBlogEntriesByAuthorId))
             .build();
 
         filterAuthorInputType = newInputObject().name("filterAuthorInput")

@@ -72,12 +72,6 @@ public class BlogEntryDataFetcher {
         return blogEntry;
     }
 
-    public Author getAuthorByAuthorId(DataFetchingEnvironment dataFetchingEnvironment) {
-        BlogEntry blogEntry = dataFetchingEnvironment.getSource();
-        val author = authorRepo.getAuthors().get(blogEntry.getAuthorId());
-        return author;
-    }
-
     public List<Comment> getCommentsByBlogEntryId(DataFetchingEnvironment dataFetchingEnvironment) {
         BlogEntry blogEntry = dataFetchingEnvironment.getSource();
         return commentRepo.getCommentsByBlogEntryId(blogEntry.getId());

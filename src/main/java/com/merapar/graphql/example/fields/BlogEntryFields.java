@@ -38,15 +38,6 @@ public class BlogEntryFields implements GraphQlFields {
     private BlogEntryDataFetcher blogEntryDataFetcher;
 
     @Autowired
-    private CommentDataFetcher commentDataFetcher;
-
-    @Autowired
-    private AuthorDataFetcher authorDataFetcher;
-
-    @Autowired
-    private AuthorFields authorFields;
-
-    @Autowired
     private CommentsFields commentsFields;
 
     @Getter
@@ -55,6 +46,7 @@ public class BlogEntryFields implements GraphQlFields {
     @Getter
     private List<GraphQLFieldDefinition> mutationFields;
 
+    @Getter
     private GraphQLObjectType blogEntryType;
 
     private GraphQLInputObjectType filterBlogEntryInputType;
@@ -79,9 +71,6 @@ public class BlogEntryFields implements GraphQlFields {
         blogEntryType = newObject().name("blogEntry").description("An blogEntry")
             .field(newFieldDefinition().name("id").description("The id").type(GraphQLLong).build())
             .field(newFieldDefinition().name("title").description("The title").type(GraphQLString).build())
-            .field(newFieldDefinition().name("author").description("The author")
-                .type(authorFields.getAuthorType())
-                .dataFetcher(blogEntryDataFetcher::getAuthorByAuthorId).build())
             .field(newFieldDefinition().name("comments").description("The comments")
                 .type(new GraphQLList(commentsFields.getCommentType()))
                 .dataFetcher(blogEntryDataFetcher::getCommentsByBlogEntryId).build())
@@ -93,16 +82,14 @@ public class BlogEntryFields implements GraphQlFields {
 
         addBlogEntryInputType = newInputObject().name("addBlogEntryInput")
             .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLLong)).build())
-            .field(newInputObjectField().name("author").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
-            .field(newInputObjectField().name("blogEntry").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
-            .field(newInputObjectField().name("blogEntryId").type(new GraphQLNonNull(GraphQLLong)).build())
+            .field(newInputObjectField().name("title").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
+            .field(newInputObjectField().name("authorId").type(new GraphQLNonNull(GraphQLLong)).build())
             .build();
 
         updateBlogEntryInputType = newInputObject().name("updateBlogEntryInput")
             .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLLong)).build())
-            .field(newInputObjectField().name("author").type(GraphQLString).build())
-            .field(newInputObjectField().name("blogEntry").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
-            .field(newInputObjectField().name("blogEntryId").type(new GraphQLNonNull(GraphQLLong)).build())
+            .field(newInputObjectField().name("title").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
+            .field(newInputObjectField().name("authorId").type(new GraphQLNonNull(GraphQLLong)).build())
             .build();
 
         deleteBlogEntryInputType = newInputObject().name("deleteBlogEntryInput")
@@ -112,7 +99,7 @@ public class BlogEntryFields implements GraphQlFields {
 
     private void createFields() {
         blogEntriesField = newFieldDefinition()
-            .name("blogEntrys").description("Provide an overview of all blogEntrys")
+            .name("blogEntries").description("Provide an overview of all blogEntries")
             .type(new GraphQLList(blogEntryType))
             .argument(newArgument().name(FILTER).type(filterBlogEntryInputType).build())
             .dataFetcher(environment -> blogEntryDataFetcher.getBlogEntriesByFilter(getFilterMap(environment)))
