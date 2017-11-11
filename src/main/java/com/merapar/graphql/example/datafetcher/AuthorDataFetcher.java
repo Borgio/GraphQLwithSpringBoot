@@ -2,27 +2,28 @@ package com.merapar.graphql.example.datafetcher;
 
 import com.merapar.graphql.base.TypedValueMap;
 import com.merapar.graphql.example.model.Author;
+import com.merapar.graphql.example.repo.AuthorRepo;
 import lombok.val;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class AuthorDataFetcher {
 
-    private Map<Long, Author> authors = new HashMap<Long, Author>();
+    @Autowired
+    private AuthorRepo authorRepo;
 
     public List<Author> getAuthorsByFilter(TypedValueMap arguments) {
-        Integer id = arguments.get("id");
+        Long id = arguments.get("id");
 
         if (id != null) {
-            return Collections.singletonList(authors.get(id));
+            return Collections.singletonList(authorRepo.getAuthors().get(id));
         } else {
-            return new ArrayList<>(authors.values());
+            return new ArrayList<>(authorRepo.getAuthors().values());
         }
     }
 
@@ -34,13 +35,13 @@ public class AuthorDataFetcher {
         author.setBio(arguments.get("bio"));
         author.setEmail(arguments.get("email"));
 
-        authors.put(author.getId(), author);
+        authorRepo.getAuthors().put(author.getId(), author);
 
         return author;
     }
 
     public Author updateAuthor(TypedValueMap arguments) {
-        val author = authors.get(arguments.get("id"));
+        val author = authorRepo.getAuthors().get(arguments.get("id"));
 
         if (arguments.containsKey("name")) {
             author.setName(arguments.get("name"));
@@ -57,9 +58,9 @@ public class AuthorDataFetcher {
 
     public Author deleteAuthor(TypedValueMap arguments) {
         Long id = arguments.get("id");
-        val author = authors.get(id);
+        val author = authorRepo.getAuthors().get(id);
 
-        authors.remove(id);
+        authorRepo.getAuthors().remove(id);
 
         return author;
     }

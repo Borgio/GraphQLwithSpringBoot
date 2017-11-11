@@ -21,9 +21,6 @@ public class BlogEntry {
 
     @Getter
     @Setter
-    private Author author;
+    private Long authorId;
 
-    @Getter
-    @Setter
-    private List<Comment> comments;
 }

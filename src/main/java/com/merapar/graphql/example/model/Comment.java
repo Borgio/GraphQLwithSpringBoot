@@ -20,4 +20,8 @@ public class Comment {
     @Getter
     @Setter
     private String comment;
+
+    @Getter
+    @Setter
+    private Long blogEntryId;
 }

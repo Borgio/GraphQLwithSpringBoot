@@ -3,7 +3,6 @@ package com.merapar.graphql.example.fields;
 import com.merapar.graphql.GraphQlFields;
 import com.merapar.graphql.example.datafetcher.AuthorDataFetcher;
 import graphql.Scalars;
-import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLInputObjectType;
 import graphql.schema.GraphQLList;
@@ -22,7 +21,6 @@ import static com.merapar.graphql.base.GraphQlFieldsHelper.FILTER;
 import static com.merapar.graphql.base.GraphQlFieldsHelper.INPUT;
 import static com.merapar.graphql.base.GraphQlFieldsHelper.getFilterMap;
 import static com.merapar.graphql.base.GraphQlFieldsHelper.getInputMap;
-import static graphql.Scalars.GraphQLInt;
 import static graphql.Scalars.GraphQLLong;
 import static graphql.Scalars.GraphQLString;
 import static graphql.schema.GraphQLArgument.newArgument;
@@ -44,6 +42,7 @@ public class AuthorFields implements GraphQlFields {
     @Getter
     private List<GraphQLFieldDefinition> mutationFields;
 
+    @Getter
     private GraphQLObjectType authorType;
 
     private GraphQLInputObjectType filterAuthorInputType;
@@ -73,25 +72,25 @@ public class AuthorFields implements GraphQlFields {
             .build();
 
         filterAuthorInputType = newInputObject().name("filterAuthorInput")
-            .field(newInputObjectField().name("id").type(GraphQLInt).build())
+            .field(newInputObjectField().name("id").type(GraphQLLong).build())
             .build();
 
         addAuthorInputType = newInputObject().name("addAuthorInput")
-            .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLInt)).build())
+            .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLLong)).build())
             .field(newInputObjectField().name("name").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
             .field(newInputObjectField().name("bio").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
             .field(newInputObjectField().name("email").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
             .build();
 
         updateAuthorInputType = newInputObject().name("updateAuthorInput")
-            .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLInt)).build())
+            .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLLong)).build())
             .field(newInputObjectField().name("name").type(GraphQLString).build())
             .field(newInputObjectField().name("bio").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
             .field(newInputObjectField().name("email").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
             .build();
 
         deleteAuthorInputType = newInputObject().name("deleteAuthorInput")
-            .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLInt)).build())
+            .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLLong)).build())
             .build();
     }
 
@@ -104,21 +103,21 @@ public class AuthorFields implements GraphQlFields {
             .build();
 
         addAuthorField = newFieldDefinition()
-            .name("addAuthor").description("Add new role")
+            .name("addAuthor").description("Add new author")
             .type(authorType)
             .argument(newArgument().name(INPUT).type(new GraphQLNonNull(addAuthorInputType)).build())
             .dataFetcher(environment -> authorDataFetcher.addAuthor(getInputMap(environment)))
             .build();
 
         updateAuthorField = newFieldDefinition()
-            .name("updateAuthor").description("Update existing role")
+            .name("updateAuthor").description("Update existing author")
             .type(authorType)
             .argument(newArgument().name(INPUT).type(new GraphQLNonNull(updateAuthorInputType)).build())
             .dataFetcher(environment -> authorDataFetcher.updateAuthor(getInputMap(environment)))
             .build();
 
         deleteAuthorField = newFieldDefinition()
-            .name("deleteAuthor").description("Delete existing role")
+            .name("deleteAuthor").description("Delete existing author")
             .type(authorType)
             .argument(newArgument().name(INPUT).type(new GraphQLNonNull(deleteAuthorInputType)).build())
             .dataFetcher(environment -> authorDataFetcher.deleteAuthor(getInputMap(environment)))
