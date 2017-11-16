@@ -20,13 +20,13 @@ public class CommentRepo {
     @PostConstruct
     public void postConstruct() {
         val comment1 = new Comment(1L, "anonymous 1", "comment1", 1L);
-        val comment2 = new Comment(1L, "anonymous 2", "comment2", 2L);
-        val comment3 = new Comment(1L, "anonymous 3", "comment3", 3L);
-        val comment4 = new Comment(1L, "anonymous 4", "comment4", 4L);
-        val comment5 = new Comment(1L, "anonymous 5", "comment5", 1L);
-        val comment6 = new Comment(1L, "anonymous 6", "comment6", 2L);
-        val comment7 = new Comment(1L, "anonymous 7", "comment7", 3L);
-        val comment8 = new Comment(1L, "anonymous 8", "comment8", 4L);
+        val comment2 = new Comment(2L, "anonymous 2", "comment2", 2L);
+        val comment3 = new Comment(3L, "anonymous 3", "comment3", 3L);
+        val comment4 = new Comment(4L, "anonymous 4", "comment4", 4L);
+        val comment5 = new Comment(5L, "anonymous 5", "comment5", 1L);
+        val comment6 = new Comment(6L, "anonymous 6", "comment6", 2L);
+        val comment7 = new Comment(7L, "anonymous 7", "comment7", 3L);
+        val comment8 = new Comment(8L, "anonymous 8", "comment8", 4L);
 
         comments.put(1L, comment1);
         comments.put(2L, comment2);
