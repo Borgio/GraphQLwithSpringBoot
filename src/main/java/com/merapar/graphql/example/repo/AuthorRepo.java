@@ -17,8 +17,8 @@ public class AuthorRepo {
 
     @PostConstruct
     public void postConstruct() {
-        val author1 = new Author(1L, "author 1", "Python dev", "author1@example.com");
-        val author2 = new Author(2L, "author 2", "Java dev", "author2@example.com");
+        val author1 = new Author(1L, "author 1", "author1@example.com", "Python dev");
+        val author2 = new Author(2L, "author 2", "author2@example.com", "Java dev");
         authors.put(1L, author1);
         authors.put(2L, author2);
     }

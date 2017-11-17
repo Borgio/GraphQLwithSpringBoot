@@ -65,8 +65,8 @@ public class CommentsFields implements GraphQlFields {
     private void createTypes() {
         commentType = newObject().name("comment").description("An comment")
             .field(newFieldDefinition().name("id").description("The id").type(GraphQLLong).build())
-            .field(newFieldDefinition().name("author").description("The name").type(GraphQLString).build())
-            .field(newFieldDefinition().name("comment").description("The biography").type(GraphQLString).build())
+            .field(newFieldDefinition().name("author").description("The author").type(GraphQLString).build())
+            .field(newFieldDefinition().name("comment").description("The comment").type(GraphQLString).build())
             .field(newFieldDefinition().name("blogEntryId").description("The blog entry id").type(GraphQLLong).build())
             .build();
 
